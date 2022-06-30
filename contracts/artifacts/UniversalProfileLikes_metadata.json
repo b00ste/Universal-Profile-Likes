@@ -1,0 +1,233 @@
+{
+	"compiler": {
+		"version": "0.8.6+commit.11564f7e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "getLikedByUniversalProfiles",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "getLikedUniversalProfiles",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMsgSender",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getUniversalProfileAddresses",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "getUniversalProfileLikes",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "likedUniversalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "likeUniversalProfile",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "likedUniversalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "unlikeUniversalProfile",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"author": "B00ste",
+			"custom:verson": "0.2",
+			"kind": "dev",
+			"methods": {
+				"getLikedByUniversalProfiles(address)": {
+					"params": {
+						"universalProfileAddress": "The address of Universal Profile."
+					},
+					"returns": {
+						"_0": "A list of Universal Profiles liked by `universalProfileAddress`."
+					}
+				},
+				"getLikedUniversalProfiles(address)": {
+					"params": {
+						"universalProfileAddress": "The address of Universal Profile."
+					},
+					"returns": {
+						"_0": "A list of Universal Profiles liked by `universalProfileAddress`."
+					}
+				},
+				"getUniversalProfileLikes(address)": {
+					"params": {
+						"universalProfileAddress": "The address of the Universal Profile that has a number of likes."
+					},
+					"returns": {
+						"_0": "The number of likes belonging to `universalProfileAddress` will be returned."
+					}
+				},
+				"likeUniversalProfile(address,address)": {
+					"params": {
+						"likedUniversalProfileAddress": "The address of an Universal Profile that is about to be liked.",
+						"universalProfileAddress": "The address of an Universal Profile that likes another Universal Profile."
+					}
+				},
+				"unlikeUniversalProfile(address,address)": {
+					"params": {
+						"likedUniversalProfileAddress": "The address of an Universal Profile that is about to be liked.",
+						"universalProfileAddress": "The address of an Universal Profile that likes another Universal Profile."
+					}
+				}
+			},
+			"title": "UniversalProfileLikes",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"getLikedByUniversalProfiles(address)": {
+					"notice": "Getter for the list of Universal Profiles that liked an Universal Profiles."
+				},
+				"getLikedUniversalProfiles(address)": {
+					"notice": "Getter for the list of Universal Profiles are liked by an Universal Profile."
+				},
+				"getUniversalProfileAddresses()": {
+					"notice": "Getter for the `universalProfileAddresses`."
+				},
+				"getUniversalProfileLikes(address)": {
+					"notice": "Getter for the number of Universal Profiles that liked a Universal Profile. Aka number of likes of an Universal Profile."
+				},
+				"likeUniversalProfile(address,address)": {
+					"notice": "Method used for liking an Universal Profile."
+				},
+				"unlikeUniversalProfile(address,address)": {
+					"notice": "Method used for unliking an Universal Profile."
+				}
+			},
+			"notice": "This smart contract provides a way to add likes to a universal profile using another universal profile.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/UniversalProfileLikes.sol": "UniversalProfileLikes"
+		},
+		"evmVersion": "berlin",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/utils/structs/EnumerableSet.sol": {
+			"keccak256": "0x5050943b32b6a8f282573d166b2e9d87ab7eb4dbba4ab6acf36ecb54fe6995e4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d4831d777a29ebdf9f2caecd70e74b97bff1b70e53622fd0a02aed01e21c8271",
+				"dweb:/ipfs/QmUqurVVnCc7XkMxb2k23TVQUtuhHZduJ3hTZarTJrqU24"
+			]
+		},
+		"contracts/UniversalProfileLikes.sol": {
+			"keccak256": "0x3feb0d77dc345a0acf439b7c780c1f94460620975d65da0ded4a9fb3be5f5768",
+			"license": "CC0-1.0",
+			"urls": [
+				"bzz-raw://7862bc8e22bf411df5255eaa958aa3a2c4461826c01eeb25ca61151df09e37a6",
+				"dweb:/ipfs/QmZ3yTkU2bPSqPucwBhFZWxYu7VroZuNbCxytJvLd5c6r2"
+			]
+		}
+	},
+	"version": 1
+}
