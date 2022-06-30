@@ -1,0 +1,121 @@
+[
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "getLikedByUniversalProfiles",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "getLikedUniversalProfiles",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMsgSender",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getUniversalProfileAddresses",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "getUniversalProfileLikes",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "likedUniversalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "likeUniversalProfile",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "universalProfileAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "likedUniversalProfileAddress",
+						"type": "address"
+					}
+				],
+				"name": "unlikeUniversalProfile",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		]
