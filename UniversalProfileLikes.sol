@@ -11,22 +11,19 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
  *
  * @title UniversalProfileLikes
  * @author B00ste
- * @custom:verson 0.1
+ * @custom:verson 0.2
  */
 contract UniversalProfileLikes {
 
     // Defining the address set.
     using EnumerableSet for EnumerableSet.AddressSet;
 
+    // --- ATTRIBUTES.
+
     /**
      * @notice This set will be used to store all addresses that have likes.
      */
     EnumerableSet.AddressSet private universalProfileAddresses;
-
-    /**
-     * @notice This mapping will store a number of likes attached to an address.
-     */
-    mapping (address => uint256) private universalProfileLikes;
 
     /**
      * @notice This mapping will store the Universal Profiles liked by an Universal Profile.
@@ -37,7 +34,54 @@ contract UniversalProfileLikes {
      * @notice This mapping will store the Universal Profiles that liked an Universal Profile.
      */
     mapping (address => EnumerableSet.AddressSet) private likedByUniversalProfiles;
+
+    // --- MODIFIERS.
+
+    /**
+     * @notice Verifies that the `likedUniversalProfileAddress` isn't liked by `universalProfileAddress` yet.
+     *
+     * @param universalProfileAddress The address of a Universal Profile that likes another Universal Profile.
+     * @param likedUniversalProfileAddress The address of a Universal profile that is about to be liked.
+     */
+    modifier UniversalProfileNotLikedBy(address universalProfileAddress, address likedUniversalProfileAddress) {
+        require(
+            !likedUniversalProfiles[universalProfileAddress].contains(likedUniversalProfileAddress) &&
+            !likedByUniversalProfiles[likedUniversalProfileAddress].contains(universalProfileAddress),
+            "The Universal Profile is already liked."
+        );
+        _;
+    }
+
+    /**
+     * @notice Verifies that `likedUniversalProfileAddress` is liked by `universalProfileAddress`.
+     *
+     * @param universalProfileAddress The address of a Universal Profile that likes another Universal Profile.
+     * @param likedUniversalProfileAddress The address of a Universal profile that is about to be liked.
+     */
+    modifier UniversalProfileLikedBy(address universalProfileAddress, address likedUniversalProfileAddress) {
+        require(
+            likedUniversalProfiles[universalProfileAddress].contains(likedUniversalProfileAddress) &&
+            likedByUniversalProfiles[likedUniversalProfileAddress].contains(universalProfileAddress),
+            "The Universal Profile is not among the liked ones."
+        );
+        _;
+    }
+
+    /**
+     * @notice Verifies that a Universal Porfile has att least 1 like.
+     *
+     * @param universalProfileAddress The address of a Universal Profile that should have likes.
+     */
+    modifier UniversalProfileHasLikes(address universalProfileAddress) {
+        require(
+            universalProfileAddresses.contains(universalProfileAddress),
+            "The Universal Profile has no likes to remove."
+        );
+        _;
+    }
     
+    // --- SETTERS & GETTERS.
+
     /**
      * @notice Saving an Universal Profile to the data structure `universalProfileAddresses`.
      *
@@ -61,34 +105,6 @@ contract UniversalProfileLikes {
      */
     function getUniversalProfileAddresses() external view returns(address[] memory) {
         return universalProfileAddresses.values();
-    }
-
-    /**
-     * @notice Increase the number of likes of an Universal Profile by 1.
-     *
-     * @param universalProfileAddress The address of the Universal Profile that has a number of likes.
-     */
-    function _increaseLikes(address universalProfileAddress) internal {
-        universalProfileLikes[universalProfileAddress] ++;
-    }
-
-    /**
-     * @notice Decrease the number of likes of an Universal Profile by 1.
-     *
-     * @param universalProfileAddress The address of the Universal Profile that has a number of likes.
-     */
-    function _decreaseLikes(address universalProfileAddress) internal {
-        universalProfileLikes[universalProfileAddress] --;
-    }
-
-    /**
-     * @notice Getter for the `universalProfileLikes`.
-     *
-     * @param universalProfileAddress The address of the Universal Profile that has a number of likes.
-     * @return The number of likes belonging to `universalProfileAddress` will be returned.
-     */
-    function getUniversalProfileLikes(address universalProfileAddress) external view returns(uint256) {
-        return universalProfileLikes[universalProfileAddress];
     }
 
     /**
@@ -143,32 +159,53 @@ contract UniversalProfileLikes {
     }
 
     /**
+     * @notice Getter for the number of Universal Profiles that liked a Universal Profile. Aka number of likes of an Universal Profile.
      *
+     * @param universalProfileAddress The address of the Universal Profile that has a number of likes.
+     * @return The number of likes belonging to `universalProfileAddress` will be returned.
      */
-    function likeUniversalProfile(address universalProfileAddress, address likedUniversalProfileAddress) external {
-        require(
-            !likedUniversalProfiles[universalProfileAddress].contains(likedUniversalProfileAddress) &&
-            !likedByUniversalProfiles[likedUniversalProfileAddress].contains(universalProfileAddress),
-            "The Universal Profile is already liked."
-        );
+    function getUniversalProfileLikes(address universalProfileAddress) external view returns(uint256) {
+        return likedByUniversalProfiles[universalProfileAddress].length();
+    }
+
+    // --- SMART CONTRACT METHODS.
+
+    /**
+     * @notice Method used for liking an Universal Profile.
+     *
+     * @param universalProfileAddress The address of an Universal Profile that likes another Universal Profile.
+     * @param likedUniversalProfileAddress The address of an Universal Profile that is about to be liked.
+     */
+    function likeUniversalProfile(
+        address universalProfileAddress,
+        address likedUniversalProfileAddress
+    )
+        external
+        UniversalProfileNotLikedBy(universalProfileAddress, likedUniversalProfileAddress)
+    {
         if (!universalProfileAddresses.contains(likedUniversalProfileAddress)) {
             _addAddress(likedUniversalProfileAddress);
         }
-        _increaseLikes(likedUniversalProfileAddress);
         _addToLikedAddresses(universalProfileAddress, likedUniversalProfileAddress);
     }
 
     /**
+     * @notice Method used for unliking an Universal Profile.
      *
+     * @param universalProfileAddress The address of an Universal Profile that likes another Universal Profile.
+     * @param likedUniversalProfileAddress The address of an Universal Profile that is about to be liked.
      */
-    function unlikeUniversalProfile(address universalProfileAddress, address likedUniversalProfileAddress) external {
-        require(universalProfileAddresses.contains(likedUniversalProfileAddress), "The Universal Profile is not in the data structure.");
-        require(
-            likedUniversalProfiles[universalProfileAddress].contains(likedUniversalProfileAddress) &&
-            likedByUniversalProfiles[likedUniversalProfileAddress].contains(universalProfileAddress),
-            "The Universal Profile is not among the liked ones."
-        );
-        _decreaseLikes(likedUniversalProfileAddress);
+    function unlikeUniversalProfile(
+        address universalProfileAddress,
+        address likedUniversalProfileAddress
+    )
+        external
+        UniversalProfileHasLikes(likedUniversalProfileAddress)
+        UniversalProfileLikedBy(universalProfileAddress, likedUniversalProfileAddress)
+    {
+        if (likedByUniversalProfiles[likedUniversalProfileAddress].length() == 1) {
+            _removeAddress(likedUniversalProfileAddress);
+        }
         _removeFromLikedAddresses(universalProfileAddress, likedUniversalProfileAddress);
     }
 
